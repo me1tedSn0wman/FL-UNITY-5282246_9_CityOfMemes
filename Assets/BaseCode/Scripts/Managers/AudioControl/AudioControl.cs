@@ -56,4 +56,11 @@ public class AudioControl : MonoBehaviour
     {
         audioSource.Stop();
     }
+
+    public void PlayEndless(AudioClip audioClip)
+    {
+        audioSource.loop = true;
+        audioSource.clip = audioClip;
+        Play();
+    }
 }

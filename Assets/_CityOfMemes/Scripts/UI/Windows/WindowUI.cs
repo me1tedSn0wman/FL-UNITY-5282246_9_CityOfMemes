@@ -21,6 +21,6 @@ public class WindowUI : MonoBehaviour
     }
 
     public virtual void TryPlayClickSound() {
-
+        SoundUI.Instance.TryPlayClickSound();
     }
 }
