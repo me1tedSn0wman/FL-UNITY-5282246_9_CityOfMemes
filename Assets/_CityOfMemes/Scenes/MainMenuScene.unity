@@ -2993,6 +2993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clickSound: {fileID: 8300000, guid: 99348d26b121bdf40bca2ff30b000207, type: 3}
   fanfareSound: {fileID: 8300000, guid: 542e31be5e933c64987c12659a1ff23f, type: 3}
+  pickUpSound: {fileID: 8300000, guid: 536322d4fa8bf404b9028b9bcfed223a, type: 3}
   musicAudioControl: {fileID: 1596067488}
   soundAudioControl: {fileID: 1102755470}
 --- !u!1 &846576725
@@ -4458,6 +4459,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4c8a05ae-8fbb-47ce-a511-7f1f9d7bbaf0
     m_ActionName: Player/Pause[/Keyboard/p,/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 994956444}
+        m_TargetAssemblyTypeName: PlayerControlManager, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 699bc03e-4c87-4746-b159-a13aa0fb0514
+    m_ActionName: Player/Interaction[/Keyboard/e,/Mouse/press,/Pen/press]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -4479,6 +4496,7 @@ MonoBehaviour:
   lookVal: {x: 0, y: 0}
   sprintVal: 0
   jumpVal: 0
+  interactVal: 0
 --- !u!224 &1062167044 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 289427497814892865, guid: 3130974242bc6db499fa1a28496f91e6, type: 3}
@@ -5078,7 +5096,7 @@ Transform:
   m_GameObject: {fileID: 1220207110}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.6951408, y: -3.8302135, z: -0.0250988}
+  m_LocalPosition: {x: -1.6951408, y: -6.3, z: -0.0250988}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

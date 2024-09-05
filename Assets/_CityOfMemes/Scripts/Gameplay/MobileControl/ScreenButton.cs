@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 public enum ScreenButtonType { 
     Sprint,
     Jump,
+    Interact
 }
 
 public class ScreenButton : MonoBehaviour,IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
@@ -48,6 +49,9 @@ public class ScreenButton : MonoBehaviour,IPointerDownHandler, IPointerUpHandler
             case ScreenButtonType.Jump:
                 playerControlManager.SetJump(1f);
                 break;
+            case ScreenButtonType.Interact:
+                playerControlManager.SetInteract(1f);
+                break;
         }
     }
 
@@ -58,6 +62,9 @@ public class ScreenButton : MonoBehaviour,IPointerDownHandler, IPointerUpHandler
                 break;
             case ScreenButtonType.Jump:
                 playerControlManager.SetJump(0f);
+                break;
+            case ScreenButtonType.Interact:
+                playerControlManager.SetInteract(0f);
                 break;
         }
     }

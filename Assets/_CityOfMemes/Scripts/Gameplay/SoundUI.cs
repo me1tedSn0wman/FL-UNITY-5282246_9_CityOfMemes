@@ -5,6 +5,7 @@ public class SoundUI : Soliton<SoundUI>
 {
     [SerializeField] public AudioClip clickSound;
     [SerializeField] public AudioClip fanfareSound;
+    [SerializeField] public AudioClip pickUpSound;
 
     [Header("AudioControl")]
     [SerializeField] public AudioControl musicAudioControl;
@@ -33,4 +34,9 @@ public class SoundUI : Soliton<SoundUI>
         musicAudioControl.PlayEndless(audioClip);
     }
 
+    public void TryPlayPickUp() {
+        if (soundAudioControl != null && fanfareSound != null) {
+            soundAudioControl.PlayOneShot(pickUpSound);
+        }
+    }
 }

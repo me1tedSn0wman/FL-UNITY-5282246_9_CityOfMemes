@@ -21,6 +21,7 @@ public class KeyTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player")) {
             GameplayManager.Instance.AddKey();
+            SoundUI.Instance.TryPlayPickUp();
             Destroy(gameObject);
         }
     }

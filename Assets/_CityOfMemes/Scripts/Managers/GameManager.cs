@@ -63,6 +63,7 @@ public class GameManager : Soliton<GameManager>
         YandexGame.GameReadyAPI();
         LangManager.currLang = YandexGame.EnvironmentData.language;
         isMobile = !YandexGame.EnvironmentData.isDesktop;
+        AudioControlManager.SubscribeYG();
 
     }
 

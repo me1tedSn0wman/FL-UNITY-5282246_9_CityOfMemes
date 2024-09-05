@@ -38,6 +38,9 @@ public class FirstPersonController : MonoBehaviour
 
     [SerializeField] private PlayerGroundCollision playerGroundCollision;
 
+    [SerializeField] private float raycastLength;
+    [SerializeField] private GameObject interactIcon;
+
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
@@ -55,8 +58,7 @@ public class FirstPersonController : MonoBehaviour
         if (GameplayManager.gameplayState == GameplayState.Gameplay)
         {
             TryLook();
-
-            TryJump();
+            ShowInteract();
         }
     }
 
@@ -65,6 +67,8 @@ public class FirstPersonController : MonoBehaviour
         if (GameplayManager.gameplayState == GameplayState.Gameplay)
         {
             TryMove();
+            TryJump();
+            TryInteract();
         }
     }
 
@@ -162,6 +166,45 @@ public class FirstPersonController : MonoBehaviour
     public void OnDestroy()
     {
         Unsubscribe();
+    }
+
+    public void TryInteract() {
+        if (playerControlManager.interact == 0) return;
+        int layerMask = 1 << 8;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.TransformDirection(Vector3.forward), out hit, raycastLength, layerMask)) {
+            if (hit.transform.CompareTag("Interactable")) {
+                IInteractable inter = hit.transform.GetComponent<IInteractable>();
+                if (inter != null) {
+                    inter.OnInteract();
+                    SoundUI.Instance.TryPlayClickSound();
+                }
+            }
+        }
+    }
+
+    public void ShowInteract() {
+        int layerMask = 1 << 8;
+        RaycastHit hit;
+
+
+        Debug.DrawRay(cameraTransform.position, cameraTransform.TransformDirection(Vector3.forward)* raycastLength, Color.red, 0.0f);
+
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.TransformDirection(Vector3.forward), out hit, raycastLength, layerMask))
+        {
+            if (hit.transform.CompareTag("Interactable"))
+            {
+                IInteractable inter = hit.transform.GetComponent<IInteractable>();
+                if (inter != null)
+                {
+                    interactIcon.SetActive(true);
+                    return;
+                }
+            }
+        }
+        interactIcon.SetActive(false);
     }
 
 }

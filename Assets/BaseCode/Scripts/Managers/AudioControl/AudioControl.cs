@@ -25,6 +25,9 @@ public class AudioControl : MonoBehaviour
                 SetVolume(AudioControlManager.soundVolume);
                 break;
         }
+
+        AudioControlManager.OnPauseAudio += Pause;
+        AudioControlManager.OnResumeAudio += Play;
     }
 
     private void OnDestroy() {
@@ -37,6 +40,9 @@ public class AudioControl : MonoBehaviour
                 break;
 
         }
+
+        AudioControlManager.OnPauseAudio -= Pause;
+        AudioControlManager.OnResumeAudio -= Play;
     }
 
     private void SetVolume(float volume)
@@ -55,6 +61,10 @@ public class AudioControl : MonoBehaviour
     public void Stop()
     {
         audioSource.Stop();
+    }
+
+    public void Pause() {
+        audioSource.Pause();
     }
 
     public void PlayEndless(AudioClip audioClip)

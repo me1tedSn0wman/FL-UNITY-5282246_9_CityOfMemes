@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Utils;
+using YG;
 
 public class AudioControlManager : Soliton<AudioControlManager>
 {
@@ -14,6 +15,8 @@ public class AudioControlManager : Soliton<AudioControlManager>
         }
     }
     public static event Action<float> OnSoundVolumeChanged;
+    public static event Action OnPauseAudio;
+    public static event Action OnResumeAudio;
 
 
     [SerializeField] private static float _musicVolume;
@@ -34,5 +37,29 @@ public class AudioControlManager : Soliton<AudioControlManager>
     public void SetMusicVolumeWithoutNotification(float value)
     {
         _musicVolume = value;
+    }
+
+    public static void SubscribeYG() {
+        YandexGame.onVisibilityWindowGame += PlayAll;
+    }
+
+    public static void UnsubscribeYG()
+    {
+        YandexGame.onVisibilityWindowGame -= PlayAll;
+    }
+
+    public static void PlayAll(bool value) {
+        if (value)
+        {
+            OnResumeAudio?.Invoke();
+        }
+        else {
+            OnPauseAudio?.Invoke();
+        }
+    }
+
+    public void OnDestroy()
+    {
+        UnsubscribeYG();
     }
 }

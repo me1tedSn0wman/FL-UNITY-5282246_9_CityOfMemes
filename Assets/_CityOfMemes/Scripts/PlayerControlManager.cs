@@ -8,11 +8,13 @@ public class PlayerControlManager : MonoBehaviour
     public Vector2 look { get; private set; }
     public float sprint { get; private set; }
     public float jump { get; private set; }
+    public float interact { get; private set; }
 
     public Vector2 moveVal;
     public Vector2 lookVal;
     public float sprintVal;
     public float jumpVal;
+    public float interactVal;
 
     public Action OnPauseButtonPressed;
 
@@ -24,6 +26,7 @@ public class PlayerControlManager : MonoBehaviour
         lookVal = look;
         sprintVal = sprint;
         jumpVal = jump;
+        interactVal = interact;
     }
 
     public void Start()
@@ -54,6 +57,11 @@ public class PlayerControlManager : MonoBehaviour
         OnPauseButtonPressed?.Invoke();
     }
 
+    public void OnInteract(InputAction.CallbackContext context) {
+        if (GameManager.Instance.gameState != GameState.Gameplay) return;
+        interact = context.ReadValue<float>();
+    }
+
     public void SetMove(Vector2 value) {
         move = value;
     }
@@ -65,5 +73,8 @@ public class PlayerControlManager : MonoBehaviour
     }
     public void SetJump(float value) {
         jump = value;
+    }
+    public void SetInteract(float value) {
+        interact = value;
     }
 }
