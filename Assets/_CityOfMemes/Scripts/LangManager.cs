@@ -1,5 +1,5 @@
 using System;
-using UnityEngine.Localization.Settings;
+//using UnityEngine.Localization.Settings;
 
 public class LangManager
 {
@@ -35,6 +35,7 @@ public class LangManager
 
     public static void SelectLocale(string lang)
     {
+        /*
         var locales = LocalizationSettings.AvailableLocales.Locales;
         for (int i = 0; i < locales.Count; i++)
         {
@@ -44,5 +45,6 @@ public class LangManager
                 return;
             }
         }
+        */
     }
 }

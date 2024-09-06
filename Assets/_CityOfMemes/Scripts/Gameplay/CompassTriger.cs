@@ -1,7 +1,7 @@
 using YG;
 using UnityEngine;
 
-public class CompassTriger : MonoBehaviour
+public class CompassTriger : MonoBehaviour, IInteractable
 {
     private float rotatingSpeed = 10f;
 
@@ -22,12 +22,8 @@ public class CompassTriger : MonoBehaviour
             Space.Self);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Cursor.lockState = CursorLockMode.None;
-            YandexGame.RewVideoShow(0);
-        }
+    public void OnInteract() {
+        Cursor.lockState = CursorLockMode.None;
+        YandexGame.RewVideoShow(0);
     }
 }

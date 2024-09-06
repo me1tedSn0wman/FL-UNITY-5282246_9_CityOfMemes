@@ -76,7 +76,7 @@ public class FirstPersonController : MonoBehaviour
         if (playerControlManager.jump == 0) return;
         if (!playerGroundCollision.isGrounded) return;
         playerRb.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
-
+        SoundUI.Instance.TryPlayJump();
     }
 
     public void TryMove() {
@@ -117,6 +117,10 @@ public class FirstPersonController : MonoBehaviour
            
         }
         Vector3 moveVal = new Vector3(playerMoveNorm.x, 0, playerMoveNorm.y);
+//        Vector3 newPos = transform.position + transform.rotation * moveVal * _speed * Time.deltaTime;
+
+//        playerRb.AddForce(transform.rotation * moveVal * _speed * Time.deltaTime, ForceMode.VelocityChange);
+//        playerRb.MovePosition(newPos);
 
         transform.Translate(transform.rotation * moveVal * _speed * Time.deltaTime, Space.World);
     }

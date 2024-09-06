@@ -262,7 +262,7 @@ public partial class @FirstPersonCntrolScheme: IInputActionCollection2, IDisposa
                 {
                     ""name"": """",
                     ""id"": ""5c955964-473d-4a16-854a-242efa89f291"",
-                    ""path"": ""<Pointer>/press"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

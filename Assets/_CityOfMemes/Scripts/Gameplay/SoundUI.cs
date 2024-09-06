@@ -6,6 +6,8 @@ public class SoundUI : Soliton<SoundUI>
     [SerializeField] public AudioClip clickSound;
     [SerializeField] public AudioClip fanfareSound;
     [SerializeField] public AudioClip pickUpSound;
+    [SerializeField] public AudioClip teleportSound;
+    [SerializeField] public AudioClip jumpSound;
 
     [Header("AudioControl")]
     [SerializeField] public AudioControl musicAudioControl;
@@ -35,8 +37,23 @@ public class SoundUI : Soliton<SoundUI>
     }
 
     public void TryPlayPickUp() {
-        if (soundAudioControl != null && fanfareSound != null) {
+        if (soundAudioControl != null && pickUpSound != null) {
             soundAudioControl.PlayOneShot(pickUpSound);
+        }
+    }
+
+    public void TryPlayTeleport() {
+        if (soundAudioControl != null && teleportSound != null)
+        {
+            soundAudioControl.PlayOneShot(teleportSound);
+        }
+    }
+
+    public void TryPlayJump()
+    {
+        if (soundAudioControl != null && jumpSound != null)
+        {
+//            soundAudioControl.PlayOneShot(jumpSound);
         }
     }
 }

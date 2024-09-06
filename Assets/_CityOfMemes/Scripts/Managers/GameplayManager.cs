@@ -17,6 +17,7 @@ public class GameplayManager : Singleton<GameplayManager>
 
     public static GameplayState gameplayState { get; private set; }
     public Transform playerTransform;
+    public Vector3 playerPosOffset;
 
 
     [SerializeField] private int numOfKeys;
@@ -146,5 +147,10 @@ public class GameplayManager : Singleton<GameplayManager>
     public void Reward() {
         SetCompassActive(true);
         compassTriger.SetActive(false);
+    }
+
+    public void TeleportPlayer(Vector3 newPos) { 
+        playerTransform.position = newPos + playerPosOffset;
+        SoundUI.Instance.TryPlayTeleport();
     }
 }
