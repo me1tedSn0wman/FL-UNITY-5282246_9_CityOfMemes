@@ -1,6 +1,8 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using YG;
 
-public class FactoryPuzzlePiece : MonoBehaviour, IInteractable
+public class FactoryPuzzlePiece : MonoBehaviour, IInteractable, ISaveable
 {
     public int endIndexValue;
 
@@ -25,13 +27,31 @@ public class FactoryPuzzlePiece : MonoBehaviour, IInteractable
 
     public void MoveToNextPuzzlePart() {
         int newActivePart = (activePuzzlePart+1) % puzzleParts.Length;
-        puzzleParts[activePuzzlePart].SetActive(false);
-        puzzleParts[newActivePart].SetActive(true);
-        activePuzzlePart = newActivePart;
+        SetActivePuzzlePart(newActivePart);
         puzzleManager.SetLocked(true);
+    }
+
+    public void SetActivePuzzlePart(int index) {
+        puzzleParts[activePuzzlePart].SetActive(false);
+        puzzleParts[index].SetActive(true);
+        activePuzzlePart = index;
     }
 
     public bool IsRightIndex() {
         return activePuzzlePart == endIndexValue;
     }
+
+    public string OnSave() {
+        string str = activePuzzlePart.ToString();
+        return str;
+    }
+
+    public void OnLoad(string data) { 
+        int index = int.Parse(data);
+
+        if (index < puzzleParts.Length) {
+            SetActivePuzzlePart(index);
+        }
+    }
+
 }

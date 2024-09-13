@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FactoryPuzzleManager : MonoBehaviour
+public class FactoryPuzzleManager : MonoBehaviour, ISaveable
 {
 
     public bool isLocked;
@@ -14,7 +15,7 @@ public class FactoryPuzzleManager : MonoBehaviour
 
     public FactoryPuzzlePiece[] factoryPuzzlePieces;
 
-    public void Start()
+    public void Awake()
     {
         vsictoryKeyGO.SetActive(false);
         for (int i = 0; i < factoryPuzzlePieces.Length; i++) {
@@ -62,4 +63,21 @@ public class FactoryPuzzleManager : MonoBehaviour
         Debug.Log("Factory Puzzle Victory");
     }
 
+    public string OnSave() {
+        string data = (isVictory ? "1" : "0")
+            + "%" + (isLocked ? "1" : "0");
+
+        return data;
+    }
+
+    public void OnLoad(string data) {
+        string[] datas = data.Split("%");
+
+        if (datas.Length < 2) {
+            Debug.LogError("Something Wrong with FactoryPuzzleManager Load");
+        }
+
+        isVictory = datas[0][0] == '1';
+        isLocked = isVictory;
+    }
 }

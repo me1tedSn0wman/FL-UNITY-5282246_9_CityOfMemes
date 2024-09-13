@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PuzzleManager : MonoBehaviour
+public class PuzzleManager : MonoBehaviour, ISaveable
 {
     public PuzzlePiece[] puzzlePieces;
     public bool isLocked;
@@ -18,7 +18,7 @@ public class PuzzleManager : MonoBehaviour
     public GameObject vsictoryKeyGO;
 
 
-    public void Start()
+    public void Awake()
     {
         for (int i = 0; i < puzzlePieces.Length; i++) {
             puzzlePieces[i].puzzleManager = this;
@@ -90,5 +90,27 @@ public class PuzzleManager : MonoBehaviour
             else
                 dialogPlaneGO_after.SetActive(false);
         }
+    }
+
+    public string OnSave() {
+
+        string data = emptyGridPos.x + "%" + emptyGridPos.y
+            + "%" + (isVictory ? "1" : "0")
+            + "%" + (isLocked ? "1" : "0");
+        return data;
+    }
+
+    public void OnLoad(string data)
+    {
+        string[] datas = data.Split('%');
+        if (datas.Length < 4) {
+            Debug.LogError("Something wrong with PuzzleManager Lood");
+            return;
+        }
+
+        emptyGridPos.x = int.Parse(datas[0]);
+        emptyGridPos.y = int.Parse(datas[1]);
+        isVictory = datas[2][0] == '1';
+        isLocked = isVictory;
     }
 }

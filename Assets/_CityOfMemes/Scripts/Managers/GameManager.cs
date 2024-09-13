@@ -42,32 +42,40 @@ public class GameManager : Soliton<GameManager>
     private static float _cameraSensitive;
 
     public static event Action<float> OnCameraSensitiveChanged;
+    public static bool isLoadOnGameplay;
+    public static bool dataIsLoaded;
 
     public override void Awake()
     {
         base.Awake();
+        isLoadOnGameplay = false;
         langManager = new LangManager();
-
+        YandexGame.GetDataEvent += GetLoadDataYG;
     }
 
     public void Start()
     {
-        StartCoroutine(InitYandex());
+        //       StartCoroutine(InitYandexCor());
+        InitYandex();
         cameraSensitive = 100f;
         Subscribe();
     }
 
-    IEnumerator InitYandex() {
+    IEnumerator InitYandexCor() {
         yield return new WaitForSeconds(0.1f);
 
+        InitYandex();
+    }
+
+    public void InitYandex() {
         YandexGame.GameReadyAPI();
         LangManager.currLang = YandexGame.EnvironmentData.language;
         isMobile = !YandexGame.EnvironmentData.isDesktop;
         AudioControlManager.SubscribeYG();
-
     }
 
-    public static void LOAD_GAMEPLAY_SCENE() {
+    public static void LOAD_GAMEPLAY_SCENE(bool loadGame) {
+        isLoadOnGameplay = loadGame;
         SceneManager.LoadScene("GameplayScene", LoadSceneMode.Single);
         Instance.gameState = GameState.Gameplay;
         Cursor.lockState = CursorLockMode.Locked;
@@ -91,6 +99,22 @@ public class GameManager : Soliton<GameManager>
     {
         if (GameplayManager.instanceExists)
             GameplayManager.Instance.Reward();
+    }
+
+    public void SaveGameData()
+    {
+#if PLATFORM_WEBGL
+        SaveDataYG();
+#endif
+    }
+
+    public void SaveDataYG()
+    {
+        YandexGame.SaveProgress();
+    }
+
+    private void GetLoadDataYG() {
+        dataIsLoaded = true;
     }
 
     public void OnDestroy()

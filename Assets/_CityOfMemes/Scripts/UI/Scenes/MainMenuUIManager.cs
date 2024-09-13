@@ -7,6 +7,7 @@ public class MainMenuUIManager : MonoBehaviour
     [SerializeField] private WindowUI aboutGameUI;
 
     [SerializeField] private Button button_StartGame;
+    [SerializeField] private Button button_LoadGame;
     [SerializeField] private Button button_Settings;
     [SerializeField] private Button button_AboutGame;
 
@@ -14,7 +15,13 @@ public class MainMenuUIManager : MonoBehaviour
     {
         button_StartGame.onClick.AddListener(() =>
         {
-            GameManager.LOAD_GAMEPLAY_SCENE();
+            GameManager.LOAD_GAMEPLAY_SCENE(false);
+            SoundUI.Instance.TryPlayClickSound();
+        });
+
+        button_LoadGame.onClick.AddListener(() =>
+        {
+            GameManager.LOAD_GAMEPLAY_SCENE(true);
             SoundUI.Instance.TryPlayClickSound();
         });
 

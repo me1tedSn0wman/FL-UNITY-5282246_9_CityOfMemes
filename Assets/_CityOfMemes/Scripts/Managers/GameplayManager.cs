@@ -9,11 +9,12 @@ public enum GameplayState {
     Pause
 }
 
-public class GameplayManager : Singleton<GameplayManager>
+public class GameplayManager : Singleton<GameplayManager>, ISaveable
 {
 
     public GameplayUIManager gameplayUIManager;
     private PlayerControlManager playerControlManager;
+    public SaveManager saveManager;
 
     public static GameplayState gameplayState { get; private set; }
     public Transform playerTransform;
@@ -42,6 +43,11 @@ public class GameplayManager : Singleton<GameplayManager>
     {
         playerControlManager = GameManager.Instance.playerControlManager;
         gameplayUIManager.gameplayManager = this;
+
+        if (GameManager.isLoadOnGameplay) {
+            saveManager.Load();
+        }
+
         Subscribe();
         mishanyaGO.SetActive(false);
 
@@ -116,6 +122,7 @@ public class GameplayManager : Singleton<GameplayManager>
     public void SetCompassActive(bool value) {
         compass.SetActive(value);
         isCompassActive = value;
+        compassTriger.SetActive(!value);
     }
 
     public void TryUpdateCompass() {
@@ -124,6 +131,9 @@ public class GameplayManager : Singleton<GameplayManager>
         float lastDistObject = float.MaxValue;
         for (int i = 0; i < compassObjects.Count; i++) {
             if (compassObjects[i] == null) {
+                continue;
+            }
+            if (!compassObjects[i].active) {
                 continue;
             }
 
@@ -152,5 +162,23 @@ public class GameplayManager : Singleton<GameplayManager>
     public void TeleportPlayer(Vector3 newPos) { 
         playerTransform.position = newPos + playerPosOffset;
         SoundUI.Instance.TryPlayTeleport();
+    }
+
+    public string OnSave() {
+        string data = numOfKeys.ToString()
+            + "%" + (mishanyaGO.active ? "1": "0");
+        return data;
+    }
+    public void OnLoad(string data) {
+        string[] datas = data.Split("%");
+
+        if (datas.Length < 2) {
+            Debug.LogError("Something wrong with GameplayManager OnLoad");
+            return;
+        }
+
+        numOfKeys = int.Parse(datas[0]);
+        mishanyaGO.SetActive(datas[1][0] == '1');
+        SetCompassActive(false);
     }
 }

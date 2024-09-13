@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FirstPersonController : MonoBehaviour
+public class FirstPersonController : MonoBehaviour, ISaveable
 {
     [Header("Player")]
     public float moveSpeed = 4.0f;
@@ -210,5 +210,40 @@ public class FirstPersonController : MonoBehaviour
         }
         interactIcon.SetActive(false);
     }
+
+    public string OnSave() {
+        string data = transform.position.x.ToString()
+            + "%" + transform.position.y.ToString()
+            + "%" + transform.position.z.ToString()
+
+            + "%" + transform.rotation.eulerAngles.x.ToString()
+            + "%" + transform.rotation.eulerAngles.y.ToString()
+            + "%" + transform.rotation.eulerAngles.z.ToString()
+            ;
+
+            return data;
+    }
+
+    public void OnLoad(string data)
+    {
+        string[] datas = data.Split("%");
+
+        if (datas.Length < 6) {
+            Debug.LogError("Something Wrong with First Person controller Load");
+        }
+
+        transform.position = new Vector3(
+            float.Parse(datas[0]),
+            float.Parse(datas[1]),
+            float.Parse(datas[2])
+            );
+
+        transform.eulerAngles = new Vector3(
+            float.Parse(datas[3]),
+            float.Parse(datas[4]),
+            float.Parse(datas[5])
+            );
+    }
+
 
 }
